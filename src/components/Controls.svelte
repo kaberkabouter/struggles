@@ -1,8 +1,16 @@
 <script lang="ts">
-  import { 
-    undo, eraseCell, toggleNote, handleInput, 
-    remainingCounts, inputMode, notesMode, selectedCell, selectedNumber, history 
-  } from '../lib/store';
+  import {
+    undo,
+    eraseCell,
+    toggleNote,
+    handleInput,
+    remainingCounts,
+    inputMode,
+    notesMode,
+    selectedCell,
+    selectedNumber,
+    history,
+  } from "../lib/store";
 
   function onNumber(num: number) {
     handleInput(num);
@@ -15,10 +23,12 @@
   }
 
   function toggleMode() {
-    $inputMode = $inputMode === 'cell' ? 'number' : 'cell';
+    $inputMode = $inputMode === "cell" ? "number" : "cell";
     $selectedCell = null;
     $selectedNumber = null;
   }
+
+  const NUMBERS: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 </script>
 
 <div class="controls-container">
@@ -28,27 +38,37 @@
       <span class="icon">↶</span>
       <span class="label">Undo</span>
     </button>
-    <button class="action-btn" disabled={$selectedCell === null} on:click={onErase}>
+    <button
+      class="action-btn"
+      disabled={$selectedCell === null}
+      on:click={onErase}
+    >
       <span class="icon">⌫</span>
       <span class="label">Erase</span>
     </button>
-    <button class="action-btn" class:active={$notesMode} on:click={() => $notesMode = !$notesMode}>
+    <button
+      class="action-btn"
+      class:active={$notesMode}
+      on:click={() => ($notesMode = !$notesMode)}
+    >
       <span class="icon">✎</span>
-      <span class="label">Notes: {$notesMode ? 'On' : 'Off'}</span>
+      <span class="label">Notes: {$notesMode ? "On" : "Off"}</span>
     </button>
     <button class="action-btn highlight" on:click={toggleMode}>
-      <span class="icon">{$inputMode === 'cell' ? '🔲' : '1️⃣'}</span>
-      <span class="label">Mode: {$inputMode === 'cell' ? 'Cell' : 'Number'}</span>
+      <span class="icon">{$inputMode === "cell" ? "🔲" : "1️⃣"}</span>
+      <span class="label"
+        >Mode: {$inputMode === "cell" ? "Cell" : "Number"}</span
+      >
     </button>
   </div>
 
   <!-- Number Pad -->
   <div class="numpad">
-    {#each [1,2,3,4,5,6,7,8,9] as n}
-      <button 
-        class="num-btn" 
+    {#each NUMBERS as n}
+      <button
+        class="num-btn"
         class:dimmed={$remainingCounts[n] <= 0}
-        class:selected={$inputMode === 'number' && $selectedNumber === n}
+        class:selected={$inputMode === "number" && $selectedNumber === n}
         on:click={() => onNumber(n)}
       >
         {n}
@@ -88,7 +108,9 @@
     gap: 0.3rem;
     padding: 0.5rem;
     border-radius: 8px;
-    transition: background-color 0.2s, opacity 0.2s;
+    transition:
+      background-color 0.2s,
+      opacity 0.2s;
   }
 
   .action-btn:disabled {
@@ -116,27 +138,29 @@
 
   /* Numpad */
   .numpad {
-    display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-    gap: 0.3rem;
-    max-width: var(--max-width);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 320px;
     margin: 0 auto;
     width: 100%;
   }
 
   .num-btn {
+    flex: 0 0 calc(20% - 0.4rem); /* 5 buttons per row */
     background-color: var(--surface-color);
     border: 1px solid var(--border-light);
     border-radius: 8px;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
     font-weight: 500;
     color: var(--primary);
-    aspect-ratio: 0.8; /* slightly taller than square */
+    aspect-ratio: 1; /* perfect square touch targets */
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.1s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   }
 
   .num-btn:active {
@@ -153,5 +177,23 @@
     background-color: var(--primary);
     color: white;
     border-color: var(--primary);
+  }
+
+  @media (orientation: landscape) and (max-height: 800px) {
+    .controls-container {
+      margin-top: 0;
+      justify-content: center;
+      height: 100%;
+    }
+    
+    .action-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+    
+    .action-btn {
+      padding: 0.8rem;
+    }
   }
 </style>

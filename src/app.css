@@ -1,25 +1,28 @@
 :root {
-  --bg-color: #f9f9fb;
-  --surface-color: #ffffff;
-  --text-main: #2d2d3a;
-  --text-muted: #8e8e9e;
+  --bg-color: #0f172a;
+  --surface-color: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --island-gap: 8px;
+
+  --border-light: #334155;
+  --border-dark: #0f172a;
+
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.15);
+
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.15);
+
+  --highlight-bg: rgba(255, 255, 255, 0.05);
+  --highlight-same: rgba(59, 130, 246, 0.2);
   
-  --border-light: #e5e5ea;
-  --border-dark: #b0b0bb;
-  
-  --primary: #4a90e2;
-  --primary-light: #e3effb;
-  
-  --error: #e74c3c;
-  --error-bg: #fdeaea;
-  
-  --highlight-bg: #f0f4f8;
-  --highlight-same: #dceaf7;
-  --fixed-text: #2d2d3a;
-  --player-text: #4a90e2;
+  --fixed-text: #f1f5f9;
+  --player-text: #60a5fa;
 
   --board-size: 100%;
-  --max-width: 500px;
+  --max-width: 600px;
 }
 
 body {
@@ -35,10 +38,11 @@ body {
 }
 
 #app {
-  max-width: var(--max-width);
+  width: 95vw;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1rem;
-  height: 100vh;
+  padding: 1rem 0;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

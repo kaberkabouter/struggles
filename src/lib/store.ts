@@ -37,6 +37,12 @@ export const remainingCounts = derived(grid, ($grid) => {
   return counts;
 });
 
+export const isGameWon = derived([grid, conflicts], ([$grid, $conflicts]) => {
+  if ($grid.length === 0) return false;
+  const isFull = $grid.every(c => c.value !== BLANK);
+  return isFull && $conflicts.size === 0;
+});
+
 // Helpers
 export function startNewGame(difficultyHoles: number = 40) {
   const { puzzle } = createPuzzle(difficultyHoles);

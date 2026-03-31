@@ -1,0 +1,9 @@
+
+> struggles@0.0.0 check
+> svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json
+
+Loading svelte-check in workspace: d:\Zen\Struggles
+Getting Svelte diagnostics...
+
+[32msvelte-check found 0 errors and 0 warnings
+[39m

@@ -137,7 +137,7 @@ export function createPuzzle(holes: number = 40): { puzzle: number[], solution: 
 
     puzzle[c1] = BLANK;
     puzzle[c2] = BLANK;
-    
+
     // If it's a center cell it's only 1 hole, otherwise it's 2
     let currentDug = (c1 === c2) ? 1 : 2;
 

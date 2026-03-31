@@ -2,8 +2,12 @@
   import { onMount } from 'svelte';
   import Board from './components/Board.svelte';
   import Controls from './components/Controls.svelte';
-  import { loadFromLocalStorage, startNewGame } from './lib/store';
+  import NewGameModal from './components/NewGameModal.svelte';
+  import VictoryPanel from './components/VictoryPanel.svelte';
+  import { loadFromLocalStorage, startNewGame, isGameWon } from './lib/store';
   import './app.css';
+
+  let showNewGameModal = false;
 
   onMount(() => {
     // Try restoring state from localStorage
@@ -15,9 +19,12 @@
   });
 
   function resetGame() {
-    if (confirm("Are you sure you want to start a new game?")) {
-      startNewGame();
-    }
+    showNewGameModal = true;
+  }
+
+  function handleStart(event: CustomEvent<number>) {
+    startNewGame(event.detail);
+    showNewGameModal = false;
   }
 </script>
 
@@ -27,12 +34,27 @@
     <button class="new-game-btn" on:click={resetGame}>New Game</button>
   </header>
   
-  <div class="content">
-    <Board />
-  </div>
+  <div class="game-area">
+    <div class="content">
+      <Board />
+    </div>
 
-  <Controls />
+    <div class="side-panel">
+      {#if $isGameWon}
+        <VictoryPanel on:restart={resetGame} />
+      {:else}
+        <Controls />
+      {/if}
+    </div>
+  </div>
 </main>
+
+{#if showNewGameModal}
+  <NewGameModal 
+    on:start={handleStart} 
+    on:close={() => showNewGameModal = false} 
+  />
+{/if}
 
 <style>
   header {
@@ -60,13 +82,43 @@
     font-weight: 600;
   }
 
-  .content {
-    flex-grow: 1;
+  .game-area {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    max-width: var(--max-width);
-    margin: 0 auto;
+    flex-grow: 1;
     width: 100%;
+    gap: 1.5rem;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  @media (orientation: landscape) and (max-height: 800px) {
+    .game-area {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 2rem;
+    }
+    
+    .content {
+      flex: 1 1 auto;
+      justify-content: flex-start;
+    }
+    
+    .side-panel {
+      flex: 0 0 320px;
+      margin-top: 0;
+    }
   }
 </style>

@@ -66,9 +66,8 @@
     font-weight: 600;
   }
   .player {
-    color: var(--player);
-    font-weight: 400;
-    color: var(--primary);
+    color: var(--player-text);
+    font-weight: 500;
   }
 
   /* Background States */
