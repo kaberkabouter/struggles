@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["bun"]
+
+[phases.install]
+cmds = ["bun install"]
+
+[phases.build]
+cmds = ["bun run build"]
+
+[start]
+cmd = "echo 'Static site detected. Ensure Coolify has \"Is it a static site?\" toggled ON and Publish Directory set to \"dist\".'"
