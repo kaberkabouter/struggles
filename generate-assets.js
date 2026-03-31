@@ -26,6 +26,12 @@ async function generate() {
     .toFile('public/pwa-512x512.png');
   console.log('Generated public/pwa-512x512.png');
 
+  // iOS icon
+  await sharp(svgBuffer, { density: 300 })
+    .resize(180, 180, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+    .toFile('public/apple-touch-icon.png');
+  console.log('Generated public/apple-touch-icon.png');
+
   // Screenshots
   await sharp({
     create: {

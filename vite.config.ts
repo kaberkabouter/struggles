@@ -7,7 +7,16 @@ export default defineConfig({
     svelte(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: [
+        'favicon.ico', 
+        'apple-touch-icon.png', 
+        'masked-icon.svg',
+        'pwa-144x144.png',
+        'pwa-192x192.png',
+        'pwa-512x512.png',
+        'screenshot-desktop.png',
+        'screenshot-mobile.png'
+      ],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       },
@@ -66,8 +75,7 @@ export default defineConfig({
           {
             src: 'screenshot-mobile.png',
             sizes: '750x1334',
-            type: 'image/png',
-            form_factor: 'narrow'
+            type: 'image/png'
           }
         ]
       }
