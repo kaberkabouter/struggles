@@ -56,6 +56,9 @@
 
   .cell-wrapper {
     background-color: var(--surface-color);
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
   }
 
   /* Thicker borders for 3x3 grids */

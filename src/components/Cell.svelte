@@ -43,7 +43,7 @@
 <style>
   .cell {
     width: 100%;
-    aspect-ratio: 1;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
