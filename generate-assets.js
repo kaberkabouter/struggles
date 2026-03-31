@@ -12,6 +12,11 @@ async function generate() {
 
   // PWA Icons
   await sharp(svgBuffer, { density: 300 })
+    .resize(144, 144, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+    .toFile('public/pwa-144x144.png');
+  console.log('Generated public/pwa-144x144.png');
+
+  await sharp(svgBuffer, { density: 300 })
     .resize(192, 192, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
     .toFile('public/pwa-192x192.png');
   console.log('Generated public/pwa-192x192.png');

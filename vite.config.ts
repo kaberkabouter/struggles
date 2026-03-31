@@ -20,6 +20,12 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
+            src: 'pwa-144x144.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
             src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
@@ -30,6 +36,12 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any'
+          },
+          {
+            src: 'pwa-144x144.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'maskable'
           },
           {
             src: 'pwa-192x192.png',
