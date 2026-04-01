@@ -197,5 +197,6 @@
     display: flex;
     align-items: stretch;
     justify-content: stretch;
+    border: 1px solid;
   }
 </style>
