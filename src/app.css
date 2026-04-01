@@ -76,7 +76,7 @@
 
 /* ── Newspaper / E-Ink Theme ──────────────────────────────────────────────── */
 [data-theme="newspaper"] {
-  --bg-color: rgba(245, 240, 232, 0.62);
+  --bg-color:        #bbbbbb;
   --surface-color:   #faf7f2;
   --surface-raised:  #ffffff;
 
