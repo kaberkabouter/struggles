@@ -1,54 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Base Design Tokens (Default Dark Theme) ─────────────────────────────── */
 :root {
-  --bg-color: #0f172a;
-  --surface-color: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --bg-color:        #0d1117;
+  --surface-color:   #161b22;
+  --surface-raised:  #1c2330;
 
-  --island-gap: 8px;
+  --text-main:       #e6edf3;
+  --text-muted:      #7d8590;
 
-  --border-light: #334155;
-  --border-dark: #0f172a;
+  --border-light:    #30363d;
+  --border-dark:     #0d1117;
 
-  --primary: #3b82f6;
-  --primary-light: rgba(59, 130, 246, 0.15);
+  --primary:         #58a6ff;
+  --primary-light:   rgba(88, 166, 255, 0.15);
 
-  --error: #ef4444;
-  --error-bg: rgba(239, 68, 68, 0.15);
+  --error:           #f85149;
+  --error-bg:        rgba(248, 81, 73, 0.15);
 
-  --highlight-bg: rgba(255, 255, 255, 0.05);
-  --highlight-same: rgba(59, 130, 246, 0.2);
-  
-  --fixed-text: #f1f5f9;
-  --player-text: #60a5fa;
+  --highlight-bg:    rgba(255, 255, 255, 0.04);
+  --highlight-same:  rgba(88, 166, 255, 0.18);
 
-  --board-size: 100%;
-  --max-width: 600px;
+  --fixed-text:      #e6edf3;
+  --player-text:     #79c0ff;
+
+  --island-bg:       #161b22;
+  --island-border:   #30363d;
+  --island-shadow:   rgba(0, 0, 0, 0.4);
+  --island-gap:      7px;
+
+  --radial-slice-bg:       rgba(22, 27, 34, 0.96);
+  --radial-slice-hover:    #58a6ff;
+  --radial-slice-disabled: rgba(22, 27, 34, 0.5);
+  --accent-notes:          #3fb950;
+
+  --flash-valid:     #3fb950;
+  --flash-invalid:   #f85149;
+
+  --max-width: 520px;
+  --header-height: 52px;
+}
+
+/* ── OLED True-Black Theme ───────────────────────────────────────────────── */
+[data-theme="oled"] {
+  --bg-color:        #000000;
+  --surface-color:   #0a0a0a;
+  --surface-raised:  #111111;
+
+  --text-main:       #ffffff;
+  --text-muted:      #555555;
+
+  --border-light:    #1a1a1a;
+  --border-dark:     #000000;
+
+  --primary:         #4d9fff;
+  --primary-light:   rgba(77, 159, 255, 0.12);
+
+  --error:           #ff453a;
+  --error-bg:        rgba(255, 69, 58, 0.12);
+
+  --highlight-bg:    rgba(255, 255, 255, 0.03);
+  --highlight-same:  rgba(77, 159, 255, 0.14);
+
+  --fixed-text:      #ffffff;
+  --player-text:     #6db3f2;
+
+  --island-bg:       #0a0a0a;
+  --island-border:   #1a1a1a;
+  --island-shadow:   rgba(0, 0, 0, 0.8);
+
+  --radial-slice-bg:       rgba(8, 8, 8, 0.97);
+  --flash-valid:     #30d158;
+  --flash-invalid:   #ff453a;
+}
+
+/* ── Newspaper / E-Ink Theme ──────────────────────────────────────────────── */
+[data-theme="newspaper"] {
+  --bg-color:        #f5f0e8;
+  --surface-color:   #faf7f2;
+  --surface-raised:  #ffffff;
+
+  --text-main:       #0a0a0a;
+  --text-muted:      #6b6b6b;
+
+  --border-light:    #1a1a1a;
+  --border-dark:     #0a0a0a;
+
+  --primary:         #1a1a1a;
+  --primary-light:   #ffe600;
+
+  --error:           #c0392b;
+  --error-bg:        rgba(192, 57, 43, 0.12);
+
+  --highlight-bg:    rgba(0, 0, 0, 0.04);
+  --highlight-same:  rgba(255, 230, 0, 0.6);
+
+  --fixed-text:      #0a0a0a;
+  --player-text:     #1a5276;
+
+  --island-bg:       #ffffff;
+  --island-border:   #0a0a0a;
+  --island-shadow:   none;
+  --island-gap:      5px;
+
+  --radial-slice-bg:       rgba(250, 247, 242, 0.97);
+  --radial-slice-hover:    #ffe600;
+  --radial-slice-disabled: rgba(250, 247, 242, 0.6);
+  --accent-notes:          #1a5276;
+
+  --flash-valid:     #27ae60;
+  --flash-invalid:   #c0392b;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  /* Prevent scrolling/bouncing on mobile */
   overscroll-behavior: none;
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
+  height: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app {
-  width: 95vw;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 0.5rem 0.75rem;
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  gap: 0.5rem;
 }
 
-/* Base button styles */
 button {
   background: none;
   border: none;
@@ -58,4 +154,29 @@ button {
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Validate Flash Animations ────────────────────────────────────────────── */
+@keyframes flash-valid-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(63, 185, 80, 0); }
+  30%  { box-shadow: 0 0 0 8px rgba(63, 185, 80, 0.5); }
+  100% { box-shadow: 0 0 0 0 rgba(63, 185, 80, 0); }
+}
+
+@keyframes flash-invalid-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  40%       { transform: translateX(4px); }
+  60%       { transform: translateX(-3px); }
+  80%       { transform: translateX(3px); }
+}
+
+@keyframes cell-flash-valid {
+  0%, 100% { background-color: var(--surface-color); }
+  40%      { background-color: rgba(63, 185, 80, 0.25); }
+}
+
+@keyframes cell-flash-invalid {
+  0%, 100% { background-color: var(--error-bg); }
+  40%      { background-color: rgba(248, 81, 73, 0.45); }
 }

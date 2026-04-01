@@ -1,40 +1,53 @@
 <script lang="ts">
-  import type { SudokuCell } from '../lib/store';
-  import { handleCellClick, BLANK } from '../lib/store';
+  import type { SudokuCell } from '../lib/gameState.svelte';
+  import { BLANK } from '../lib/gameState.svelte';
 
-  export let cell: SudokuCell;
-  export let isSelected: boolean = false;
-  export let isRelated: boolean = false;
-  export let isHighlightedNumber: boolean = false;
-  export let hasConflict: boolean = false;
-
-  // Derive logical states
-  $: isFixed = cell.isFixed;
-  $: hasValue = cell.value !== BLANK;
-  $: cssClass = `
-    cell 
-    ${isFixed ? 'fixed' : 'player'} 
-    ${isSelected ? 'selected' : ''} 
-    ${!isSelected && isRelated ? 'related' : ''} 
-    ${!isSelected && !isRelated && isHighlightedNumber ? 'highlighted-num' : ''}
-    ${hasConflict ? 'conflict' : ''}
-  `.replace(/\s+/g, ' ').trim();
-
-  function onClick() {
-    handleCellClick(cell.index);
+  interface Props {
+    cell: SudokuCell;
+    isSelected?: boolean;
+    isRelated?: boolean;
+    isHighlightedNumber?: boolean;
+    hasConflict?: boolean;
+    isRadialOpen?: boolean;
+    validateState?: 'idle' | 'valid' | 'invalid';
   }
+
+  let {
+    cell,
+    isSelected      = false,
+    isRelated       = false,
+    isHighlightedNumber = false,
+    hasConflict     = false,
+    isRadialOpen    = false,
+    validateState   = 'idle',
+  }: Props = $props();
+
+  const isFixed  = $derived(cell.isFixed);
+  const hasValue = $derived(cell.value !== BLANK);
+
+  // Validate flash states per cell
+  const isFlashValid   = $derived(validateState === 'valid'   && !hasConflict && hasValue);
+  const isFlashInvalid = $derived(validateState === 'invalid' && hasConflict);
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-<div class={cssClass} on:click={onClick}>
+<div
+  class="cell"
+  class:fixed={isFixed}
+  class:player={!isFixed}
+  class:selected={isSelected}
+  class:related={!isSelected && isRelated}
+  class:highlighted-num={!isSelected && !isRelated && isHighlightedNumber}
+  class:conflict={hasConflict && validateState === 'idle'}
+  class:flash-valid={isFlashValid}
+  class:flash-invalid={isFlashInvalid}
+  class:radial-open={isRadialOpen}
+>
   {#if hasValue}
     <span class="value">{cell.value}</span>
   {:else if cell.notes && cell.notes.length > 0}
     <div class="notes-grid">
-      {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as n}
-        <span class="note {cell.notes.includes(n) ? 'active' : ''}">
-          {cell.notes.includes(n) ? n : ''}
-        </span>
+      {#each [1,2,3,4,5,6,7,8,9] as n}
+        <span class="note {cell.notes.includes(n) ? 'active' : ''}">{cell.notes.includes(n) ? n : ''}</span>
       {/each}
     </div>
   {/if}
@@ -47,42 +60,43 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(1.2rem, 5vw, 2rem);
+    font-size: clamp(1.1rem, 4.5vw, 1.9rem);
     font-weight: 500;
     cursor: pointer;
     background-color: var(--surface-color);
     box-sizing: border-box;
     position: relative;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition: background-color 0.12s ease, color 0.12s ease;
   }
 
-  .value {
-    pointer-events: none;
-  }
+  .value { pointer-events: none; }
 
-  /* Text Colors */
-  .fixed {
-    color: var(--fixed-text);
-    font-weight: 600;
-  }
-  .player {
-    color: var(--player-text);
-    font-weight: 500;
-  }
+  .fixed  { color: var(--fixed-text);  font-weight: 700; }
+  .player { color: var(--player-text); font-weight: 500; }
 
-  /* Background States */
-  .selected {
+  .selected       { background-color: var(--primary-light); }
+  .related        { background-color: var(--highlight-bg); }
+  .highlighted-num{ background-color: var(--highlight-same); }
+  .conflict       { background-color: var(--error-bg); color: var(--error); }
+
+  /* Radial menu open indicator — pulsing ring */
+  .radial-open {
+    box-shadow: inset 0 0 0 2px var(--primary);
     background-color: var(--primary-light);
+    animation: radial-ring-pulse 1.2s ease-in-out infinite;
   }
-  .related {
-    background-color: var(--highlight-bg);
+
+  @keyframes radial-ring-pulse {
+    0%, 100% { box-shadow: inset 0 0 0 2px var(--primary); }
+    50%       { box-shadow: inset 0 0 0 2px var(--primary), 0 0 8px var(--primary); }
   }
-  .highlighted-num {
-    background-color: var(--highlight-same);
+
+  /* Validate flash */
+  .flash-valid {
+    animation: cell-flash-valid 1.2s ease forwards;
   }
-  .conflict {
-    background-color: var(--error-bg);
-    color: var(--error);
+  .flash-invalid {
+    animation: cell-flash-invalid 1.2s ease forwards;
   }
 
   /* Notes */
@@ -97,10 +111,11 @@
     pointer-events: none;
   }
   .note {
-    font-size: clamp(0.4rem, 2vw, 0.7rem);
+    font-size: clamp(0.38rem, 1.8vw, 0.65rem);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
   }
+  .note.active { color: var(--accent-notes); font-weight: 600; }
 </style>
