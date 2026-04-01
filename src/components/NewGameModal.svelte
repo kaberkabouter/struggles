@@ -10,11 +10,10 @@
   let { onstart, onclose }: Props = $props();
 
   const difficulties = [
-    { name: 'Testing',  holes: 1,  color: '#9E9E9E' },
-    { name: 'Easy',     holes: 30, color: '#4CAF50' },
-    { name: 'Medium',   holes: 40, color: '#FF9800' },
-    { name: 'Hard',     holes: 50, color: '#F44336' },
-    { name: 'Expert',   holes: 58, color: '#9C27B0' },
+    { name: 'Easy',     holes: 45, color: '#4CAF50' },
+    { name: 'Medium',   holes: 52, color: '#FF9800' },
+    { name: 'Hard',     holes: 60, color: '#F44336' },
+    { name: 'Expert',   holes: 68, color: '#9C27B0' },
   ];
 
   onMount(() => {
